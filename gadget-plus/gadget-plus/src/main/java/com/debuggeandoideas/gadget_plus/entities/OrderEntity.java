@@ -31,7 +31,7 @@ public class OrderEntity {
   private String clientName;
 
   @ToString.Exclude
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name="id_bill", nullable = false, unique = true)
   private BillEntity bill;
 
