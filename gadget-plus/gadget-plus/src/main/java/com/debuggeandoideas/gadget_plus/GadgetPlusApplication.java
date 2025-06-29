@@ -2,10 +2,15 @@ package com.debuggeandoideas.gadget_plus;
 
 import com.debuggeandoideas.gadget_plus.entities.BillEntity;
 import com.debuggeandoideas.gadget_plus.entities.OrderEntity;
+import com.debuggeandoideas.gadget_plus.entities.ProductEntity;
 import com.debuggeandoideas.gadget_plus.repositories.BillRepository;
 import com.debuggeandoideas.gadget_plus.repositories.OrderRepository;
+import com.debuggeandoideas.gadget_plus.repositories.ProductCatalogRepository;
+import com.debuggeandoideas.gadget_plus.repositories.ProductRepository;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,31 +28,50 @@ public class GadgetPlusApplication implements CommandLineRunner {
 	@Autowired
 	private BillRepository billRepository;
 
+	@Autowired
+	private ProductCatalogRepository productCatalogRepository;
+
+	@Autowired
+	private ProductRepository productRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(GadgetPlusApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		this.billRepository.findAll().forEach(bill -> System.out.println(bill.getRfc()));
 
-		this.orderRepository.findAll().forEach(orderEntity -> System.out.println(orderEntity.toString()));
+		// SELECT * FROM products_catalog;
+		var productCatalog1 = this.productCatalogRepository.findAll().get(0);
+		var productCatalog2 = this.productCatalogRepository.findAll().get(4);
+		var productCatalog3 = this.productCatalogRepository.findAll().get(7);
 
-		// Creamos un nuevo elemento BillEntity con builder().
-		var bill = BillEntity.builder()
-				.rfc("AS537GD7D")
-				.totalAmount(BigDecimal.TEN)
-				.id("b-17")
-				.build();
+		// SELECT * FROM order WHERE id = '1';
+		var order = this.orderRepository.findById(1L).orElseThrow();
 
-		// Creamos un nuevo elemento OrderEntity con builder().
-		var order = OrderEntity.builder()
-				.createdAt(LocalDateTime.now())
-				.clientName("Alex Pereira")
-				.bill(bill)
-				.build();
+		// Creo tres productos - todavia no la asigno a la tabla product
+		var product1 = ProductEntity.builder().quantity(BigInteger.ONE).build();
+		var product2 = ProductEntity.builder().quantity(BigInteger.TWO).build();
+		var product3 = ProductEntity.builder().quantity(BigInteger.TEN).build();
 
-		// Gravamos el elemento orden que hemos creado en la BD.
+		// Creo una lista con los tres productos
+		var products = List.of(product1, product2, product3);
+
+		// Añado aca producto su catalogo que es el detalle.
+		product1.setCatalog(productCatalog1);
+		product2.setCatalog(productCatalog2);
+		product3.setCatalog(productCatalog3);
+
+		// A order le añado la lista de productos
+		order.setProduct(products);
+
+		// Desde el lado de productos le tengo que asociar que se relaciona con el registro 1 de la tabla order
+		products.forEach(p -> p.setOrder(order));
+
+		// Gravo el registro 1 de la tabla order que lleva una lista de tres productos
 		this.orderRepository.save(order);
+
+		//Borramos el product1
+		//order.getProduct().remove(0);
 	}
 }
