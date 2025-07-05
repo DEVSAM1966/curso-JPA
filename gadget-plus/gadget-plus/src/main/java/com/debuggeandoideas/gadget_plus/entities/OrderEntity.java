@@ -52,7 +52,12 @@ public class OrderEntity {
   @OneToMany(mappedBy = "order",
       fetch = FetchType.EAGER,
       cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<ProductEntity> product = new ArrayList<>();
+  private List<ProductEntity> products = new ArrayList<>();
+
+  // Metodo para añadir un producto a la List products
+  public void addProduct(ProductEntity product) {
+    this.products.add(product);
+  }
 
   @Override
   public boolean equals(Object o) {

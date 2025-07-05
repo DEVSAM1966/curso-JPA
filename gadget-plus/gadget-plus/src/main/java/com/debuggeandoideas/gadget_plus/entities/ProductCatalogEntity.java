@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -55,7 +56,6 @@ public class ProductCatalogEntity {
 
   @ManyToMany(fetch = FetchType.EAGER,
       cascade = {CascadeType.DETACH,
-          CascadeType.MERGE,
           CascadeType.PERSIST,
           CascadeType.REFRESH})
   @JoinTable(
@@ -63,6 +63,10 @@ public class ProductCatalogEntity {
       joinColumns = @JoinColumn (name = "id_product"),
       inverseJoinColumns = @JoinColumn(name = "id_category")
   )
-  private List<CategoryEntity> categories;
+  private List<CategoryEntity> categories = new LinkedList<>();
+
+  public void addCategory(CategoryEntity category) {
+    this.categories.add(category);
+  }
 
 }

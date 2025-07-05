@@ -3,14 +3,16 @@ package com.debuggeandoideas.gadget_plus;
 import com.debuggeandoideas.gadget_plus.entities.BillEntity;
 import com.debuggeandoideas.gadget_plus.entities.OrderEntity;
 import com.debuggeandoideas.gadget_plus.entities.ProductEntity;
-import com.debuggeandoideas.gadget_plus.repositories.BillRepository;
-import com.debuggeandoideas.gadget_plus.repositories.OrderRepository;
-import com.debuggeandoideas.gadget_plus.repositories.ProductCatalogRepository;
-import com.debuggeandoideas.gadget_plus.repositories.ProductRepository;
+import com.debuggeandoideas.gadget_plus.repositories.*;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -34,6 +36,9 @@ public class GadgetPlusApplication implements CommandLineRunner {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(GadgetPlusApplication.class, args);
 	}
@@ -41,37 +46,55 @@ public class GadgetPlusApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		// SELECT * FROM products_catalog;
-		var productCatalog1 = this.productCatalogRepository.findAll().get(0);
-		var productCatalog2 = this.productCatalogRepository.findAll().get(4);
-		var productCatalog3 = this.productCatalogRepository.findAll().get(7);
+		//final var HOME = this.categoryRepository.findById(1L).orElseThrow();
+		//final var OFFICE = this.categoryRepository.findById(2L).orElseThrow();
 
-		// SELECT * FROM order WHERE id = '1';
-		var order = this.orderRepository.findById(1L).orElseThrow();
+		//this.productCatalogRepository.findAll().forEach(product -> {
 
-		// Creo tres productos - todavia no la asigno a la tabla product
-		var product1 = ProductEntity.builder().quantity(BigInteger.ONE).build();
-		var product2 = ProductEntity.builder().quantity(BigInteger.TWO).build();
-		var product3 = ProductEntity.builder().quantity(BigInteger.TEN).build();
+			//if (product.getDescription().contains("home")){
+			//	product.addCategory(HOME);
+			//}
 
-		// Creo una lista con los tres productos
-		var products = List.of(product1, product2, product3);
+			//if (product.getDescription().contains("office")){
+			//	product.addCategory(OFFICE);
+			//}
 
-		// Añado aca producto su catalogo que es el detalle.
-		product1.setCatalog(productCatalog1);
-		product2.setCatalog(productCatalog2);
-		product3.setCatalog(productCatalog3);
+			//this.productCatalogRepository.save(product);
+		//});
 
-		// A order le añado la lista de productos
-		order.setProduct(products);
+		// Genero una variable de valor aleatorio
+		var random = new Random();
 
-		// Desde el lado de productos le tengo que asociar que se relaciona con el registro 1 de la tabla order
-		products.forEach(p -> p.setOrder(order));
+		// Creo una cola con LinkedList y contiene la colección de datos de todo
+		// el contenido de la tabla products_catalog. su tamaño es de 42 registros
+		var productsCatalog = new LinkedList<>(this.productCatalogRepository.findAll());
 
-		// Gravo el registro 1 de la tabla order que lleva una lista de tres productos
-		this.orderRepository.save(order);
+		// Con el lambda IntStream(0, 42) puedo usar un forEach()
+		// La alternativa seria: for(int i = 0; i<productsCatalog.size;i++)
+		IntStream.range(0, productsCatalog.size()).forEach(i-> {
+			// Limito los valores aleatorio entre el 1 al 16
+			// La funcion genera del 0 al 15 pero al sumar 1 se arregla el rango
+			var idOrderRandom = random.nextLong(16) + 1;
 
-		//Borramos el product1
-		//order.getProduct().remove(0);
+			// Me traigo un registro orden usando como indice idOrderRandom
+			var orderRandom = this.orderRepository.findById(idOrderRandom).orElseThrow();
+
+			// Ahora creo un objeto product.
+			// quantity entre 1 a 6
+			// catalog le aplico el contenido de productsCatalog
+			var product = ProductEntity.builder()
+					.quantity(BigInteger.valueOf(random.nextInt(5) + 1))
+					.catalog(productsCatalog.poll())
+					.build();
+
+			// Añado a la lista product (definida en OrderEntity) el objeto product
+			orderRandom.addProduct(product);
+
+			// al objeto product le añado mediante setOrder, la orden encontrada.
+			product.setOrder(orderRandom);
+
+			// Salvamos el objeto order.
+			this.orderRepository.save(orderRandom);
+		});
 	}
 }
