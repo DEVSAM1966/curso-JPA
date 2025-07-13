@@ -49,57 +49,39 @@ public class GadgetPlusApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		this.rejectProductRepository.findAll().forEach(System.out::println);
+		/* this.rejectProductRepository.findAll().forEach(System.out::println);
 
-		//final var HOME = this.categoryRepository.findById(1L).orElseThrow();
-		//final var OFFICE = this.categoryRepository.findById(2L).orElseThrow();
+		final var HOME = this.categoryRepository.findById(1L).orElseThrow();
+		final var OFFICE = this.categoryRepository.findById(2L).orElseThrow();
 
-		//this.productCatalogRepository.findAll().forEach(product -> {
+		this.productCatalogRepository.findAll().forEach(product -> {
 
-			//if (product.getDescription().contains("home")){
-			//	product.addCategory(HOME);
-			//}
+			if (product.getDescription().contains("home")){
+				product.addCategory(HOME);
+			}
 
-			//if (product.getDescription().contains("office")){
-			//	product.addCategory(OFFICE);
-			//}
+			if (product.getDescription().contains("office")){
+				product.addCategory(OFFICE);
+			}
 
-			//this.productCatalogRepository.save(product);
-		//});
+			this.productCatalogRepository.save(product);
+		});
 
-		// Genero una variable de valor aleatorio
-		//var random = new Random();
+		var random = new Random();
 
-		// Creo una cola con LinkedList y contiene la colección de datos de todo
-		// el contenido de la tabla products_catalog. su tamaño es de 42 registros
-		//var productsCatalog = new LinkedList<>(this.productCatalogRepository.findAll());
+		var productsCatalog = new LinkedList<>(this.productCatalogRepository.findAll());
 
-		// Con el lambda IntStream(0, 42) puedo usar un forEach()
-		// La alternativa seria: for(int i = 0; i<productsCatalog.size;i++)
-		//IntStream.range(0, productsCatalog.size()).forEach(i-> {
-			// Limito los valores aleatorio entre el 1 al 16
-			// La funcion genera del 0 al 15 pero al sumar 1 se arregla el rango
-			//var idOrderRandom = random.nextLong(16) + 1;
-
-			// Me traigo un registro orden usando como indice idOrderRandom
-			//var orderRandom = this.orderRepository.findById(idOrderRandom).orElseThrow();
-
-			// Ahora creo un objeto product.
-			// quantity entre 1 a 6
-			// catalog le aplico el contenido de productsCatalog
-			/*var product = ProductEntity.builder()
+		IntStream.range(0, productsCatalog.size()).forEach(i-> {
+			var idOrderRandom = random.nextLong(16) + 1;
+			var orderRandom = this.orderRepository.findById(idOrderRandom).orElseThrow();
+			var product = ProductEntity.builder()
 					.quantity(BigInteger.valueOf(random.nextInt(5) + 1))
 					.catalog(productsCatalog.poll())
-					.build();*/
+					.build();
 
-			// Añado a la lista product (definida en OrderEntity) el objeto product
-			//orderRandom.addProduct(product);
-
-			// al objeto product le añado mediante setOrder, la orden encontrada.
-			//product.setOrder(orderRandom);
-
-			// Salvamos el objeto order.
-			//this.orderRepository.save(orderRandom);
-		//});
+			orderRandom.addProduct(product);
+			product.setOrder(orderRandom);
+			this.orderRepository.save(orderRandom);
+		}); */
 	}
 }
