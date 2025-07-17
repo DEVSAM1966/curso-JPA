@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
+@Entity(name="productCatalog")
 @Table(name="products_catalog")
 @Getter
 @Setter

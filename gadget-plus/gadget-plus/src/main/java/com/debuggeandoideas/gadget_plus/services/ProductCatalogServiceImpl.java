@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +33,13 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
 
     @Override
     public List<ProductCatalogEntity> findNameLike(String key) {
-        return List.of();
+        return this.catalogRepository.findByNameLike(key);
+
+    }
+
+    @Override
+    public List<ProductCatalogEntity> findByBetweenTwoPrice(BigDecimal min, BigDecimal max) {
+        return this.catalogRepository.findByBetweenTwoPrice(min, max);
     }
 
     @Override
