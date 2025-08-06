@@ -1,13 +1,17 @@
 package com.debuggeandoideas.gadget_plus.controllers;
 
+import com.debuggeandoideas.gadget_plus.dtos.DataEval;
+import com.debuggeandoideas.gadget_plus.dtos.ReportProduct;
 import com.debuggeandoideas.gadget_plus.entities.ProductCatalogEntity;
 import com.debuggeandoideas.gadget_plus.enums.LikeKey;
 import com.debuggeandoideas.gadget_plus.services.ProductCatalogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,5 +58,45 @@ public class ProductCatalogController {
     public ResponseEntity<List<ProductCatalogEntity>> getByBetweenTwoPrice(@RequestParam BigDecimal min,
                                                                      @RequestParam BigDecimal max) {
         return ResponseEntity.ok(this.productCatalogService.findByBetweenTwoPrice(min, max));
+    }
+
+    @GetMapping(path="category")
+    public ResponseEntity<List<ProductCatalogEntity>> getByCategory(@RequestParam Long id) {
+        return ResponseEntity.ok(this.productCatalogService.findByCategoryId(id));
+    }
+
+    @GetMapping(path="date-launch/{key}")
+    public ResponseEntity<List<ProductCatalogEntity>> getByDate(
+            @PathVariable DataEval key,
+            @RequestParam LocalDate date) {
+        return ResponseEntity.ok(this.productCatalogService.findByLaunchingDate(date, key));
+    }
+
+    @GetMapping(path="brand-rating")
+    public ResponseEntity<List<ProductCatalogEntity>> getByBrandAndRating(
+            @RequestParam String brand,
+            @RequestParam Short rating) {
+        return ResponseEntity.ok(this.productCatalogService.findByBrandAndRating(brand, rating));
+    }
+
+    @GetMapping(path="brand-or-rating")
+    public ResponseEntity<List<ProductCatalogEntity>> getByBrandOrRating(
+            @RequestParam String brand,
+            @RequestParam Short rating) {
+        return ResponseEntity.ok(this.productCatalogService.findByBrandOrRating(brand, rating));
+    }
+
+    @GetMapping(path="report")
+    public ResponseEntity<List<ReportProduct>> getReport() {
+        return ResponseEntity.ok(this.productCatalogService.makeReport());
+    }
+
+    @GetMapping(path="all")
+    public ResponseEntity<Page<ProductCatalogEntity>> getAll(
+            @RequestParam(required = false) String field,
+            @RequestParam(required = false) Boolean desc,
+            @RequestParam(required = true) Integer page
+    ) {
+        return ResponseEntity.ok(this.productCatalogService.findAll(field, desc, page));
     }
 }

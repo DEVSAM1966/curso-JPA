@@ -1,6 +1,7 @@
 package com.debuggeandoideas.gadget_plus.services;
 
-
+import com.debuggeandoideas.gadget_plus.dtos.DataEval;
+import com.debuggeandoideas.gadget_plus.dtos.ReportProduct;
 import com.debuggeandoideas.gadget_plus.entities.ProductCatalogEntity;
 import org.springframework.data.domain.Page;
 
@@ -16,12 +17,13 @@ public interface ProductCatalogService {
     ProductCatalogEntity findByName(String name);
     List<ProductCatalogEntity> findNameLike(String key);
     List<ProductCatalogEntity> findByBetweenTwoPrice(BigDecimal min, BigDecimal max);
-    List<ProductCatalogEntity> findByCategoryName(BigInteger id);
-    //List<ProductCatalogEntity> findByLaunchingDate(LocalDate date, DataEval key);
+    List<ProductCatalogEntity> findByCategoryId(Long id);
+    List<ProductCatalogEntity> findByLaunchingDate(LocalDate date, DataEval key);
     List<ProductCatalogEntity> findByBrandAndRating(String brand, Short rating);
-    //List<StatisticProduct> findStatistics();
+    List<ProductCatalogEntity> findByBrandOrRating(String brand, Short rating);
+    List<ReportProduct> makeReport();
 
-    Page<ProductCatalogEntity> findAll(String field,Boolean desc);
+    Page<ProductCatalogEntity> findAll(String field, Boolean desc, Integer page);
     Page<ProductCatalogEntity> findAllByBrand(String brand);
 
     Integer countByBrand(String brand);

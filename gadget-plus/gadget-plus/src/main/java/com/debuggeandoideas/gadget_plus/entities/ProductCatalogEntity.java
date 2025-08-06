@@ -1,16 +1,7 @@
 package com.debuggeandoideas.gadget_plus.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -24,7 +15,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity(name="productCatalog")
-@Table(name="products_catalog")
+@Table(name="products_catalog", indexes = {
+        @Index(name = "idx_product_name", columnList = "product_name")
+})
 @Getter
 @Setter
 @ToString

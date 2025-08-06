@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6698b8d1-cdc1-4eaa-850d-d18301d1bf8b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/controllers/ProductCatalogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/controllers/ProductCatalogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/entities/ProductCatalogEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/entities/ProductCatalogEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/repositories/ProductCatalogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/repositories/ProductCatalogRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/services/ProductCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/services/ProductCatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/services/ProductCatalogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/gadget-plus/gadget-plus/src/main/java/com/debuggeandoideas/gadget_plus/services/ProductCatalogServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "SISTEMA-DEVSAM1966"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/DEVSAM1966/curso-JPA.git",
+    "accountId": "bafdeaa4-da12-45fe-a598-0bfb6bccd465"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="30mokx7iqMblFVkcSMuK8VNd4aP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "JPA-repository",
+    "last_opened_file_path": "/home/sam/PROYECTOS/curso-JPA/gadget-plus/gadget-plus"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6698b8d1-cdc1-4eaa-850d-d18301d1bf8b" name="Changes" comment="" />
+      <created>1754242256231</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1754242256231</updated>
+    </task>
+    <servers />
+  </component>
+</project>
