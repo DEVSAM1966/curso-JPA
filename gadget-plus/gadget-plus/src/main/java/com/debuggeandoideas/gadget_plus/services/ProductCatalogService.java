@@ -24,7 +24,9 @@ public interface ProductCatalogService {
     List<ReportProduct> makeReport();
 
     Page<ProductCatalogEntity> findAll(String field, Boolean desc, Integer page);
-    Page<ProductCatalogEntity> findAllByBrand(String brand);
+    Page<ProductCatalogEntity> findAllSort(String field, Boolean desc, Integer page);
+
+    Page<ProductCatalogEntity> findAllByBrand(String brand, Integer page);
 
     Integer countByBrand(String brand);
 }

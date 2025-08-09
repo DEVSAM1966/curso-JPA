@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -26,6 +28,7 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
     private final ProductCatalogRepository catalogRepository;
 
     private static final int PAGE_SIZE = 5;
+    private static final int MIN_PAGE_SIZE = 2;
 
     @Override
     public ProductCatalogEntity findById(UUID id) {
@@ -78,17 +81,36 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
 
     @Override
     public Page<ProductCatalogEntity> findAll(String field, Boolean desc, Integer page) {
-
         return this.catalogRepository.findAll(PageRequest.of(page, PAGE_SIZE));
     }
 
     @Override
-    public Page<ProductCatalogEntity> findAllByBrand(String brand) {
-        return null;
+    public Page<ProductCatalogEntity> findAllSort(String field, Boolean desc, Integer page) {
+        var sorting = Sort.by("name");
+
+        if (Objects.nonNull(field)) {
+            switch (field) {
+                case "brand" -> sorting = Sort.by("brand");
+                case "price" -> sorting = Sort.by("price");
+                case "launchingDate" -> sorting = Sort.by("launchingDate");
+                case "rating" -> sorting = Sort.by("rating");
+
+                default -> throw new IllegalArgumentException("Invalid field: " + field);
+            }
+        }
+        return (desc) ?
+                this.catalogRepository.findAll(PageRequest.of(page, PAGE_SIZE, sorting.descending()))
+                :
+                this.catalogRepository.findAll(PageRequest.of(page, PAGE_SIZE, sorting.ascending()));
+    }
+
+    @Override
+    public Page<ProductCatalogEntity> findAllByBrand(String brand, Integer page) {
+        return this.catalogRepository.findAllByBrand(brand, PageRequest.of(page, MIN_PAGE_SIZE));
     }
 
     @Override
     public Integer countByBrand(String brand) {
-        return 0;
+        return this.catalogRepository.countTotalProductsByBrandStoreProcedure(brand);
     }
 }

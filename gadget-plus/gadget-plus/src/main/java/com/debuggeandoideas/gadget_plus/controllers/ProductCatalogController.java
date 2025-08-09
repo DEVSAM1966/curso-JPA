@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -98,5 +99,27 @@ public class ProductCatalogController {
             @RequestParam(required = true) Integer page
     ) {
         return ResponseEntity.ok(this.productCatalogService.findAll(field, desc, page));
+    }
+
+    @GetMapping(path="allsort")
+    public ResponseEntity<Page<ProductCatalogEntity>> getAllSort(
+            @RequestParam(required = true) String field,
+            @RequestParam(required = true) Boolean desc,
+            @RequestParam(required = true) Integer page
+    ) {
+        return ResponseEntity.ok(this.productCatalogService.findAllSort(field, desc, page));
+    }
+
+    @GetMapping(path="all-by-brand")
+    public ResponseEntity<Page<ProductCatalogEntity>> getAllByBrand(
+            @RequestParam String brand,
+            @RequestParam Integer page
+    ) {
+        return ResponseEntity.ok(this.productCatalogService.findAllByBrand(brand, page));
+    }
+
+    @GetMapping(path="brand-count/{brand}")
+    public ResponseEntity<Integer> getCountByBrand(@PathVariable String brand) {
+        return ResponseEntity.ok(this.productCatalogService.countByBrand(brand));
     }
 }
