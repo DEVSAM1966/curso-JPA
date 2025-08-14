@@ -43,11 +43,18 @@ public class OrderEntity {
   @Column(length = 32, nullable = false)
   private String clientName;
 
-  @ToString.Exclude
-  @OneToOne(fetch = FetchType.EAGER,
+
+ /* @OneToOne(fetch = FetchType.EAGER,
       cascade = {CascadeType.DETACH, CascadeType.REMOVE})
   @JoinColumn(name="id_bill", nullable = false, unique = true)
+  private BillEntity bill; */
+
+ @ToString.Exclude
+  @OneToOne(fetch = FetchType.EAGER,
+          cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REMOVE})
+  @JoinColumn(name = "id_bill", nullable = false, unique = true)
   private BillEntity bill;
+
 
   @OneToMany(mappedBy = "order",
       fetch = FetchType.EAGER,

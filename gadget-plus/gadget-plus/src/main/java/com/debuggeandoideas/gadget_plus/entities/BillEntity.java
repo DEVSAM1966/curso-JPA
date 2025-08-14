@@ -34,8 +34,9 @@ public class BillEntity {
   private BigDecimal totalAmount;
 
   @Column(name="client_rfc", length = 14, nullable = false)
-  private String rfc;
+  private String clientRfc;
 
+  @ToString.Exclude
   @OneToOne(mappedBy = "bill", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private OrderEntity order;
 
