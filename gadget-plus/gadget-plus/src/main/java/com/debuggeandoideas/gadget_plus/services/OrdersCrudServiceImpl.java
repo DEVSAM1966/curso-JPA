@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -24,6 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrdersCrudServiceImpl implements OrdersCrudService{
 
     private final OrderRepository orderRepository;
@@ -44,12 +47,41 @@ public class OrdersCrudServiceImpl implements OrdersCrudService{
 
     @Override
     public OrderDTO update(OrderDTO order, Long id) {
-        return null;
+        // Busco el registro a modificar y se almacena en toUpdate
+        final var toUpdate = this.orderRepository.findById(id).orElseThrow();
+
+        // aplico setter al objeto toUpdate
+        toUpdate.setClientName(order.getClientName());
+        toUpdate.getBill().setClientRfc(order.getBill().getClientRfc());
+
+        // Guardo toUpdate en BD y devuelvo el resultado en un objeto DTO.
+        return this.mapOrderFromEntity(this.orderRepository.save(toUpdate));
     }
 
     @Override
     public void delete(Long id) {
 
+        if (orderRepository.existsById(id)) {
+            orderRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Client not exist");
+        }
+
+        // Forma de borrar no tan eficiente
+        /* var toDelete = orderRepository.findById(id).orElseThrow();
+
+        this.orderRepository.delete(toDelete); */
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Override
+    public void delete(String clientName) {
+
+        if (orderRepository.existsByClientName(clientName)) {
+            orderRepository.deleteByClientName(clientName);
+        } else {
+            throw new IllegalArgumentException("Client not exist");
+        }
     }
 
     private OrderDTO mapOrderFromEntity(OrderEntity orderEntity) {
