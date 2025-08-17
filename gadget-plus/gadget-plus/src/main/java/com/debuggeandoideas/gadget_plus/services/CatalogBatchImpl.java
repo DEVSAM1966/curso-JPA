@@ -23,7 +23,7 @@ public class CatalogBatchImpl implements CatalogBatch {
         final var start = System.currentTimeMillis();
         this.productCatalogRepository.saveAllAndFlush(products);
         final var end = System.currentTimeMillis();
-        log.info("Finish insert in {} seconds", end - start);
+        log.info("Finish insert in {} miliseconds", end - start);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class CatalogBatchImpl implements CatalogBatch {
         final var start = System.currentTimeMillis();
         this.productCatalogRepository.deleteAllByIdInBatch(ids);
         final var end = System.currentTimeMillis();
-        log.info("Finish delete in {} seconds", end - start);
+        log.info("Finish delete in {} miliseconds", end - start);
     }
 
     private static List<ProductCatalogEntity> products;

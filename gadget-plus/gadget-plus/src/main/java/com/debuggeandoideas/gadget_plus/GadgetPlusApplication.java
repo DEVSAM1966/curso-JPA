@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import com.debuggeandoideas.gadget_plus.services.CatalogBatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -42,6 +43,9 @@ public class GadgetPlusApplication implements CommandLineRunner {
 	@Autowired
 	private RejectProductRepository rejectProductRepository;
 
+    @Autowired
+    private CatalogBatch catalogBatch;
+
 	public static void main(String[] args) {
 		SpringApplication.run(GadgetPlusApplication.class, args);
 	}
@@ -49,6 +53,12 @@ public class GadgetPlusApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+        // PROCEDIMIENTO DE INSERCIÓN Y BORRAR DE TIPO BATCH
+        /*this.catalogBatch.insertBatch();
+        Thread.sleep(10000);
+        this.catalogBatch.deleteBatch();*/
+
+        // PROCEDIMIENTO PARA RECREAR LOS DATOS EN TODA LAS TABLAS
 		/* this.rejectProductRepository.findAll().forEach(System.out::println);
 
 		final var HOME = this.categoryRepository.findById(1L).orElseThrow();
