@@ -25,11 +25,8 @@ public class TransactionServiceImpl implements TransactionService {
     public void executeTransaction(Long id) {
         log.info("TRANSACTION ACTIVE 1 {}", TransactionSynchronizationManager.isActualTransactionActive());
         log.info("TRANSACTION NAME 1 {}", TransactionSynchronizationManager.getCurrentTransactionName());
-        try {
-            this.updateOrder(id);
-        } catch (Exception e) {}
 
-        this.updateBill("b-3");
+        this.updateOrder(id);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -43,10 +40,10 @@ public class TransactionServiceImpl implements TransactionService {
         order.setCreatedAt(LocalDateTime.now());
         orderRepository.save(order);
         this.validProducts(id);
-        //this.updateBill(order.getBill().getId());
+        this.updateBill(order.getBill().getId());
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void updateBill(String id) {
         log.info("TRANSACTION ACTIVE 4 {}", TransactionSynchronizationManager.isActualTransactionActive());
@@ -54,11 +51,11 @@ public class TransactionServiceImpl implements TransactionService {
         final var bill = billRepository.findById(id).orElseThrow();
 
         // Cambiamos el campo clientRfc
-        bill.setClientRfc("5678");
+        bill.setClientRfc("6666");
         billRepository.save(bill);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public void validProducts(Long id) {
         log.info("TRANSACTION ACTIVE 3 {}", TransactionSynchronizationManager.isActualTransactionActive());
